@@ -4,7 +4,7 @@ trigger:
 jobs:
 - job: Build
   pool:
-    vmImage: 'ubuntu-latest'  # Or 'windows-latest' depending on your environment
+    name: 'default'
 
   steps:
   # Checkout the code from the repository
