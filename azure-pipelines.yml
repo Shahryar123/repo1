@@ -1,29 +1,25 @@
 trigger:
-- main
+- main  # Trigger the pipeline on changes to the main branch
 
-pool:
-  vmImage: 'ubuntu-latest'
+jobs:
+- job: Build
+  pool:
+    vmImage: 'ubuntu-latest'  # Or 'windows-latest' depending on your environment
 
-steps:
+  steps:
+  # Checkout the code from the repository
+  - checkout: self  # This automatically checks out the repository where this YAML file resides
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'restore'
-    projects: '**/*.csproj'
+  # Example step to use a .NET SDK (or any other environment you may need)
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '8.x'  # Replace with the .NET version you are using
+      installationPath: $(Agent.ToolsDirectory)/dotnet
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    projects: '**/*.csproj'
+  # Build your project using dotnet or any other build tool
+  - script: |
+      dotnet build
+    displayName: 'Build Project'
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: true
-    arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+  # Add other tasks for testing, publishing, etc., if necessary
