@@ -11,15 +11,5 @@ jobs:
   - checkout: self  # This automatically checks out the repository where this YAML file resides
 
   # Example step to use a .NET SDK (or any other environment you may need)
-  - task: UseDotNet@2
-    inputs:
-      packageType: 'sdk'
-      version: '8.x'  # Replace with the .NET version you are using
-      installationPath: $(Agent.ToolsDirectory)/dotnet
-
-  # Build your project using dotnet or any other build tool
-  - script: |
-      dotnet build
-    displayName: 'Build Project'
-
-  # Add other tasks for testing, publishing, etc., if necessary
+  - script: echo "Pipeline run complete 11"
+  displayName: 'Echo Complete Message'
