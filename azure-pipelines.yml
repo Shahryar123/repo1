@@ -1,15 +1,24 @@
 trigger:
 - main  # Trigger the pipeline on changes to the main branch
 
+pool:
+  name: 'default'
+
 jobs:
 - job: Build
-  pool:
-    name: 'default'
-
+  displayName: 'Build Job'
   steps:
+
   # Checkout the code from the repository
-  - checkout: self  # This automatically checks out the repository where this YAML file resides
+  - checkout: self  # Automatically checks out the repository where this YAML file resides
 
   # Example step to use a .NET SDK (or any other environment you may need)
-  - script: echo "Pipeline run complete 11"
-  displayName: 'Echo Complete Message'
+  - script: echo "Pipeline run complete"
+    displayName: 'Echo Complete Message'
+
+  # Publish the build artifacts
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.SourcesDirectory)'
+      ArtifactName: 'simple-artifact'
+      publishLocation: 'Container'
