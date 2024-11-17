@@ -15,7 +15,8 @@ jobs:
   # Example step to use a .NET SDK (or any other environment you may need)
   - script: echo "Pipeline run complete"
     displayName: 'Echo Complete Message'
-
+  - script: exit 1
+    displayName: 'Intentional Failure Step'
   # Publish the build artifacts
   - task: PublishBuildArtifacts@1
     inputs:
